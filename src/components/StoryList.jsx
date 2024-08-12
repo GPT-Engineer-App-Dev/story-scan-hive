@@ -16,7 +16,7 @@ const StoryList = ({ stories, isLoading }) => {
   return (
     <div className="mt-6 space-y-4">
       {stories.map((story) => (
-        <StoryItem key={story.objectID} story={story} />
+        <StoryItem key={story.id} story={story} />
       ))}
     </div>
   );
