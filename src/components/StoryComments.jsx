@@ -1,5 +1,6 @@
 import React from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { User, Loader } from 'lucide-react';
 
 const fetchComments = async (ids) => {
   const comments = await Promise.all(
@@ -13,9 +14,12 @@ const fetchComments = async (ids) => {
 };
 
 const Comment = ({ comment }) => (
-  <div className="mb-4 p-4 bg-gray-100 rounded-lg">
-    <p className="text-sm text-gray-600 mb-2">By: {comment.by}</p>
-    <div dangerouslySetInnerHTML={{ __html: comment.text }} className="text-gray-800" />
+  <div className="mb-4 p-4 bg-white rounded-lg shadow">
+    <div className="flex items-center mb-2 text-sm text-gray-600">
+      <User className="w-4 h-4 mr-2" />
+      <span>{comment.by}</span>
+    </div>
+    <div dangerouslySetInnerHTML={{ __html: comment.text }} className="text-gray-800 prose prose-sm max-w-none" />
   </div>
 );
 
@@ -31,16 +35,29 @@ const StoryComments = ({ storyId }) => {
     enabled: !!story && !!story.kids,
   });
 
-  if (storyLoading || commentsLoading) return <div>Loading comments...</div>;
-  if (storyError || commentsError) return <div>Error loading comments</div>;
+  if (storyLoading || commentsLoading) {
+    return (
+      <div className="flex justify-center items-center p-8">
+        <Loader className="w-8 h-8 animate-spin text-gray-500" />
+      </div>
+    );
+  }
+
+  if (storyError || commentsError) {
+    return (
+      <div className="p-4 text-red-500">
+        Error loading comments. Please try again later.
+      </div>
+    );
+  }
 
   return (
-    <div className="mt-4">
-      <h3 className="text-xl font-semibold mb-4">Comments</h3>
+    <div className="p-6">
+      <h3 className="text-xl font-semibold mb-4 text-gray-800">Top Comments</h3>
       {comments && comments.length > 0 ? (
         comments.map((comment) => <Comment key={comment.id} comment={comment} />)
       ) : (
-        <p>No comments yet.</p>
+        <p className="text-gray-600">No comments yet.</p>
       )}
     </div>
   );
