@@ -13,22 +13,24 @@ const StoryItem = ({ story }) => {
       <div className="flex items-center text-gray-600 mb-2 space-x-4">
         <div className="flex items-center">
           <ArrowUpCircle className="w-4 h-4 mr-1" />
-          <span>{story.points} points</span>
+          <span>{story.score} points</span>
         </div>
         <div className="flex items-center">
           <Clock className="w-4 h-4 mr-1" />
-          <span>{formatDate(story.created_at_i)}</span>
+          <span>{formatDate(story.time)}</span>
         </div>
       </div>
-      <a
-        href={story.url}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="inline-flex items-center text-blue-600 hover:underline"
-      >
-        Read more
-        <ExternalLink className="w-4 h-4 ml-1" />
-      </a>
+      {story.url && (
+        <a
+          href={story.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center text-blue-600 hover:underline"
+        >
+          Read more
+          <ExternalLink className="w-4 h-4 ml-1" />
+        </a>
+      )}
     </div>
   );
 };
