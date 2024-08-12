@@ -1,9 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 
-const fetchStories = async (query = '') => {
+const fetchTopStories = async (query = '') => {
   const response = await fetch(
-    `https://hn.algolia.com/api/v1/search?tags=story&hitsPerPage=100&query=${query}`
+    `https://hn.algolia.com/api/v1/search?tags=story&numericFilters=created_at_i>${Math.floor(
+      Date.now() / 1000
+    ) - 86400}&hitsPerPage=100&query=${query}&sort=points_desc`
   );
   if (!response.ok) {
     throw new Error('Failed to fetch stories');
@@ -15,8 +17,8 @@ export const useHackerNewsStories = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ['hackerNewsStories', searchQuery],
-    queryFn: () => fetchStories(searchQuery),
+    queryKey: ['topHackerNewsStories', searchQuery],
+    queryFn: () => fetchTopStories(searchQuery),
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
 

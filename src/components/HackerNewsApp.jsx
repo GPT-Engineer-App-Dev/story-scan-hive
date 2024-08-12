@@ -8,7 +8,7 @@ const HackerNewsApp = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6">Top 100 Hacker News Stories</h1>
+      <h1 className="text-3xl font-bold mb-6">Top 100 Daily Hacker News Stories</h1>
       <SearchBar onSearch={searchStories} />
       {error && <p className="text-red-500 mt-4">Error: {error.message}</p>}
       <StoryList stories={stories} isLoading={isLoading} />
